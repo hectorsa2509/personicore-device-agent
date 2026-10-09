@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Entitlements for the Developer ID build, applied together with the hardened runtime
+  (`codesign --options runtime`). Notarization REQUIRES the hardened runtime, and the
+  hardened runtime breaks CoreCLR unless these three are granted — which is why they are
+  here and not a wish list:
+
+    allow-jit                        CoreCLR compiles IL at run time. Without this the
+                                     app dies at startup mapping executable pages.
+    allow-unsigned-executable-memory CoreCLR also writes into pages it then executes
+                                     (stubs, write-barriers). JIT alone is not enough.
+    disable-library-validation       The bundle loads ~19 dylibs (Skia, HarfBuzz,
+                                     libcoreclr, Avalonia's native layer) that carry
+                                     Microsoft's and our signature, not one team's.
+
+  This is the reason the agent could never be a Mac App Store app even if the proxy
+  helper and the System-keychain CA were removed: App Review does not grant
+  allow-unsigned-executable-memory to a sandboxed app, so a self-contained CoreCLR build
+  has nowhere to go. Developer ID is the channel; see ../README.md.
+
+  Deliberately absent: com.apple.security.app-sandbox. The agent installs a root helper,
+  rewrites system-wide proxies and writes a LaunchAgent — all of which the sandbox
+  forbids, and none of which an entitlement can buy back.
+-->
+<plist version="1.0">
+<dict>
+  <key>com.apple.security.cs.allow-jit</key>
+  <true/>
+  <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+  <true/>
+  <key>com.apple.security.cs.disable-library-validation</key>
+  <true/>
+</dict>
+</plist>

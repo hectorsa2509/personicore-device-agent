@@ -1,0 +1,29 @@
+# Is presenceCreateDevice deployed to this endpoint yet?
+#
+# Paste into any GraphQL client (Postman, Insomnia, Altair, Apollo Studio) with:
+#   POST   https://graphql.example.invalid/graphql
+#   header Authorization: Bearer <token>      ← stage needs the word "Bearer"
+#
+# Read the answer like this:
+#   input: null              → not deployed to this endpoint. Nothing else matters.
+#   input: { inputFields }   → deployed. Compare those fields against what the agent
+#                              sends (docs/GRAPHQL-CONTRACT.md §4b) before trusting it.
+#
+# It asks about the types rather than listing Mutation.fields on purpose: that list is
+# 545 names long and buries the answer.
+query IsDeviceMutationDeployed {
+  input: __type(name: "PresenceCreateDeviceInput") {
+    name
+    inputFields {
+      name
+      type { kind name ofType { kind name ofType { kind name } } }
+    }
+  }
+  payload: __type(name: "PresenceDevicePayload") {
+    name
+    fields {
+      name
+      type { kind name ofType { kind name } }
+    }
+  }
+}

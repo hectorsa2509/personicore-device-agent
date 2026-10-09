@@ -1,0 +1,84 @@
+PERSONICORE DEVICE AGENT FOR macOS - INSTALLATION
+=================================================
+
+1. Pick the right version
+   Apple menu > About This Mac > "Chip":
+     - Apple M1 / M2 / M3 / M4 ...  -> arm64 folder
+     - Intel                        -> x64 folder
+   Requires macOS 12 Monterey or later.
+
+2. Unzip it and drag "Personicore Device Agent.app" into Applications.
+
+3. Open it. This test build is not notarized by Apple yet, so macOS blocks
+   it the first time:
+     - macOS 15 Sequoia: open it once, then System Settings > Privacy &
+       Security > scroll down > "Open Anyway" next to Personicore.
+     - macOS 12-14: right-click the app > Open > Open.
+
+4. macOS asks to allow Personicore to find devices on your local network.
+   Click "Allow" - without it the Personicore router cannot be found.
+
+5. The Personicore icon appears in the menu bar (top right). There is no
+   Dock icon.
+
+6. Click the icon > "Start at login" so it runs every time you sign in.
+
+When the agent finds the Personicore router it asks who the computer belongs
+to. Check the household members and click "Register computer".
+
+Proxy
+   First choose "Install HTTPS certificate..." in the agent menu and approve
+   administrator access. Then turn the proxy on. If the certificate is missing
+   or not trusted, the proxy stays off and shows how to resolve it. After
+   installing the certificate, turn the proxy on again.
+
+   Click the icon > "Personicore proxy" turns the proxy on or off, and
+   "Proxy settings..." opens the same switch in a window that says where it
+   points. The first time, macOS asks for your administrator password once,
+   to install the small helper that changes system proxies; after that it
+   only asks again when the helper needs an update. When on, macOS uses the Personicore router (port 3129);
+   you can see it in System Settings > Network > Wi-Fi > Details... >
+   Proxies. If the router restarts and comes back with another address, the
+   agent follows it within seconds, so your browsing does not stop. Away from
+   home it pauses by itself so your internet keeps working. Note: HTTPS sites
+   need the Personicore certificate installed on this Mac while the proxy is
+   on.
+
+Notifications
+   When macOS asks, allow notifications for "Personicore Device Agent".
+   In System Settings > Notifications > Personicore Device Agent, enable
+   "Allow notifications" and choose "Banners" or "Alerts".
+
+   To see notifications while mirroring or sharing your screen, go back to
+   System Settings > Notifications and enable
+   "Allow notifications when mirroring or sharing the display".
+   This is a global setting: notifications from other apps may also appear
+   while sharing. The agent does not change it automatically.
+
+   If no alert appears, also check Focus / Do Not Disturb. Click the date
+   and time in the menu bar to check Notification Center, then click the
+   agent icon > "Test proxy notification" to try again. A request accepted
+   by macOS can still be silenced by these system settings.
+
+   While the agent is running, it reminds you every 30 minutes if the proxy
+   switch is off. Turning it on stops the reminders; a proxy already on but
+   paused away from home does not trigger them. The test button sends the
+   same notice immediately, even if the proxy is on, without changing it.
+
+Icon colors
+   Blue    starting (or dry run: written to the desktop file)
+   Gray    no Personicore router on this network
+   Orange  owner not set yet - click the icon > "Register this computer..."
+   Green   registered
+   Red     error - click the icon > "View details..."
+
+Installing the HTTPS certificate and installing or updating the proxy helper
+require administrator authorization. Normal agent operation does not.
+
+Test run that saves nothing (optional)
+   Copy .env.example to
+     ~/Library/Application Support/Personicore/DeviceAgent/.env
+   and set PERSONICORE_DRY_RUN=true. The registration is then written to
+   Personicore-outbox.txt on the desktop instead of being sent.
+
+Logs: ~/Library/Logs/Personicore/agent.log

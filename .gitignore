@@ -1,0 +1,70 @@
+# Build output
+bin/
+obj/
+windows/dist/
+macos/dist/
+
+# Tools
+.vs/
+.idea/
+*.user
+
+# System
+.DS_Store
+Thumbs.db
+
+# The real .env is never committed: it may hold the household token.
+.env
+
+# The credential baked into the packages by build/write-packaged-env.sh.
+packaging.env
+core/Personicore.DeviceAgent.Core/Config/packaged.env
+
+# Los paquetes copiados a la raíz para compartir: 165 MB de binarios no van a git.
+/PersonicoreDeviceAgent-*.zip
+
+# Local copy of the compiled macOS application.
+/Personicore Device Agent.app/
+
+# Public source repositories: local credentials and generated/private artifacts
+.env
+.env.*
+!.env.example
+!.env.local.example
+*.env
+!*.env.fixture
+*.pem
+*.key
+*.p12
+*.pfx
+*.keystore
+*credentials*.json
+*service-account*.json
+*service_account*.json
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+.claude/
+.codex/
+backups/
+logs/
+*.log
+*.sqlite*
+*.db
+*.zip
+*.app/
+*.exe
+*.dll
+*.pdb
+bin/
+obj/
+dist/
+# Exported documents/screenshots can contain embedded credentials or internal data.
+*.docx
+*.pdf
+/docs/sessions/
+
+/windows/screenshots/
+/docs/manual/

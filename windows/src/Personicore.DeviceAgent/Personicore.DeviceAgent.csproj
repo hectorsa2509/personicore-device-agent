@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Personicore.DeviceAgent</RootNamespace>
+    <AssemblyName>PersonicoreDeviceAgent</AssemblyName>
+    <ApplicationIcon>Resources\app.ico</ApplicationIcon>
+
+    <!-- Permite compilar/publicar el target -windows desde macOS o Linux. -->
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+
+    <!-- Un solo .exe, sin .NET instalado en la máquina del panelista.
+         win-x64 por defecto; build/publish.* genera además win-arm64 nativo, que es el
+         único que arranca en Windows 10 sobre ARM (allí no hay emulación x64, solo x86). -->
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;win-arm64</RuntimeIdentifiers>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <DebugType>embedded</DebugType>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+
+    <Company>Personicore</Company>
+    <Product>Personicore Device Agent</Product>
+    <AssemblyTitle>Personicore Device Agent</AssemblyTitle>
+    <Version>0.6.0</Version>
+    <FileVersion>0.6.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Siluetas de la marca, una por tamaño de bandeja. Las genera build/make-icon.py;
+         se incrustan para que el .exe siga siendo un único archivo. -->
+    <EmbeddedResource Include="Resources\mark-*.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Discovery, GraphQL, the cycle and state: shared with macOS and Linux. -->
+    <ProjectReference Include="..\..\..\core\Personicore.DeviceAgent.Core\Personicore.DeviceAgent.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Marca, modelo y tipo de chasis. El registro es la vía primaria;
+         WMI es el fallback cuando el fabricante no puebla la clave BIOS. -->
+    <PackageReference Include="System.Management" Version="9.0.0" />
+  </ItemGroup>
+
+</Project>

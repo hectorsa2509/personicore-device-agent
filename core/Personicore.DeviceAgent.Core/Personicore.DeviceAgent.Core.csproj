@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Everything that is the same on every OS: node discovery, GraphQL, the cycle, state,
+       the outbox. No UI and no OS APIs: each platform plugs those in through the
+       interfaces in Platform/. -->
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <RootNamespace>Personicore.DeviceAgent</RootNamespace>
+    <AssemblyName>Personicore.DeviceAgent.Core</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Certificates/mitmproxy-ca_computer.crt" LogicalName="personicore-ca.crt" />
+
+    <!-- The credential the package was built with, written by build/write-packaged-env.sh
+         immediately before publish and deleted immediately after, so it is never in the
+         repository and never lingers for the next build to embed by accident. Absent is
+         the normal state of a working copy, and a build without it is legitimate: the
+         agent then uses what the meter node serves. -->
+    <EmbeddedResource Include="Config/packaged.env" LogicalName="personicore-packaged.env"
+                      Condition="Exists('Config/packaged.env')" />
+  </ItemGroup>
+</Project>

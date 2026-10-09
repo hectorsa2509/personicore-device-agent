@@ -1,0 +1,114 @@
+# Example of Personicore-outbox.txt — the file the agent leaves on the desktop
+# when .env has no endpoint. Generated with sample data.
+
+﻿══════════════════════════════════════════════════════════════════════════════
+  2026-09-08 09:39:25 -06:00   SIMULATED SEND (the API was not called)
+══════════════════════════════════════════════════════════════════════════════
+
+HOUSEHOLD
+  Meter node        http://router.example.invalid:80
+  Router MAC        94:83:c4:70:c9:dc
+  Router ID         (provided by the API)
+  Household ID      (provided by the API)
+
+THIS COMPUTER
+  IP                192.168.1.47
+  Interface         Wi-Fi
+  MAC               3c:37:86:aa:bb:01
+  machineId         M2MzNzg2YWFiYjAx3cPMPM
+
+DEVICE DATA
+  Name              Ana's laptop
+  Type              laptop
+  Brand             LENOVO
+  Model             20XW00AXSP
+  Operating system  Windows 11 Pro 24H2
+  Shared            yes
+
+OWNER AS DECLARED BY THE PANELIST
+  Names             Ana Marin, Luis Marin
+  panelistIds       (empty: real IDs only come from getPanelistsRouter)
+
+REQUESTS THAT WOULD BE SENT
+  POST              (not configured: PERSONICORE_GRAPHQL_ENDPOINT missing in .env)
+  Authorization     JWT served by http://router.example.invalid:80/cgi-bin/get_config.sh
+  Content-Type      application/json
+  Body              {"query": <query>, "variables": <variables>}
+  Note              empty fields (routerId, householdId, panelistIds)
+                    are filled in by the getPanelistsRouter response
+
+  ── 1/2 · getPanelistsRouter ──────────────────────────────────────────────
+
+  query:
+    query getPanelistsRouter($macAddress: String!) {
+      getPanelistsRouter(macAddress: $macAddress) {
+        router {
+          id
+          macAddress
+          household {
+            id
+            friendlyName
+          }
+        }
+        panelists {
+          id
+          firstName
+          lastName
+          email
+          ips {
+            ip
+            friendlyName
+            machineId
+            deviceBrand
+            deviceModel
+            deviceType
+          }
+        }
+      }
+    }
+
+  variables:
+    {
+      "macAddress": "94:83:c4:70:c9:dc"
+    }
+
+  ── 2/2 · routerIpsAssigment ──────────────────────────────────────────────
+
+  query:
+    mutation routerIpsAssigment(
+      $routerId: ID!
+      $addIps: [IPInput!]
+      $removeIps: [RemoveIPAssignmentInput!]
+      $updateIps: [IPInput!]
+    ) {
+      routerIpsAssigment(
+        routerId: $routerId
+        addIps: $addIps
+        removeIps: $removeIps
+        updateIps: $updateIps
+      ) {
+        id
+        macAddress
+      }
+    }
+
+  variables:
+    {
+      "routerId": "",
+      "addIps": [],
+      "removeIps": [],
+      "updateIps": [
+        {
+          "ip": "192.168.1.47",
+          "friendlyName": "Ana's laptop",
+          "machineId": "M2MzNzg2YWFiYjAx3cPMPM",
+          "deviceType": "laptop",
+          "deviceBrand": "LENOVO",
+          "deviceModel": "20XW00AXSP",
+          "deviceShared": true,
+          "panelistIds": [],
+          "deviceOs": "Windows 11 Pro 24H2"
+        }
+      ]
+    }
+

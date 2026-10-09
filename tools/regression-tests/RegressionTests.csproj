@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <!-- Compile production Core unchanged, replacing only filesystem paths and logging.
+       No test runner packages, backend calls, desktop files, or proxy changes. -->
+  <ItemGroup>
+    <EmbeddedResource Include="../../core/Personicore.DeviceAgent.Core/Certificates/mitmproxy-ca_computer.crt" LogicalName="personicore-ca.crt" />
+
+    <!-- A package always carries its credential as this resource, so the lookup order can
+         only be exercised with one embedded here too. The values are deliberately invalid
+         hosts: nothing in this suite may reach a real endpoint. -->
+    <EmbeddedResource Include="packaged.env.fixture" LogicalName="personicore-packaged.env" />
+    <Compile Include="../../core/Personicore.DeviceAgent.Core/**/*.cs"
+      Exclude="../../core/Personicore.DeviceAgent.Core/obj/**/*.cs;../../core/Personicore.DeviceAgent.Core/bin/**/*.cs;../../core/Personicore.DeviceAgent.Core/Platform/AgentPaths.cs;../../core/Personicore.DeviceAgent.Core/Config/Log.cs" />
+  </ItemGroup>
+</Project>

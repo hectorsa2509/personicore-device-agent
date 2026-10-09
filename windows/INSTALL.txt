@@ -1,0 +1,65 @@
+PERSONICORE DEVICE AGENT - INSTALLATION
+=======================================
+
+1. Pick the right version
+   Settings > System > About > "System type":
+     - x64-based processor (Intel / AMD, most computers) -> win-x64 folder
+     - ARM-based processor (Snapdragon, Surface Pro X)   -> win-arm64 folder
+   On Windows 10 on ARM only the win-arm64 version works.
+
+2. Copy PersonicoreDeviceAgent.exe anywhere permanent, for example:
+     %LOCALAPPDATA%\Personicore\PersonicoreDeviceAgent.exe
+   The executable is self-contained and carries the endpoint and the credential
+   this package was built for inside it. There is nothing to keep beside it and
+   nothing for the panelist to configure.
+
+3. Run it.
+   The first time, Windows SmartScreen shows "Windows protected your PC"
+   because the file is not code-signed yet. Click "More info" and then
+   "Run anyway". This happens only once per computer.
+
+4. The Personicore icon appears in the notification area (bottom right,
+   next to the clock). New icons are often hidden behind the "^" arrow:
+   drag it onto the taskbar so it is always visible.
+
+5. Right-click the icon > "Start with Windows" so it runs at every sign-in.
+
+When the agent finds the Personicore router it asks who the computer belongs
+to. Fill in the form and click "Register computer".
+
+Proxy
+   First choose "Install HTTPS certificate..." in the agent menu and approve
+   administrator access. Then turn the proxy on. If the certificate is missing
+   or not trusted, the proxy stays off and shows how to resolve it. After
+   installing the certificate, turn the proxy on again.
+
+   Right-click the icon > "Use Personicore proxy" turns the proxy on or off.
+   When on, Windows uses the Personicore router (port 3129); you can see it in
+   Settings > Network & internet > Proxy. If the router restarts and comes
+   back with another address, the agent follows it within seconds, so your
+   browsing does not stop. Away from home it pauses by itself so your internet
+   keeps working. Note: HTTPS sites need the Personicore certificate installed
+   on this computer while the proxy is on.
+
+Icon colors
+   Blue    starting (or dry run: written to the desktop file)
+   Gray    no Personicore router on this network
+   Orange  owner not set yet - click the icon to register
+   Green   registered
+   Red     error - right-click > "View details..."
+
+Normal agent operation does not need administrator rights. Installing the
+HTTPS certificate requires administrator authorization.
+
+Saving
+   The agent reads the household member list from the Personicore router and
+   saves the registration directly, using the router's own credentials. No
+   configuration file is needed.
+   For a test run that saves nothing, copy windows/.env.example from the
+   repository to .env NEXT TO THE .exe and set PERSONICORE_DRY_RUN=true: the
+   registration is then written to Personicore-outbox.txt on the desktop
+   instead. A .env in the executable's own directory overrides the credential
+   compiled into it; one in %LOCALAPPDATA% does not, so a file left there after
+   testing cannot hijack a panelist's build.
+
+Logs: %LOCALAPPDATA%\Personicore\DeviceAgent\logs\agent.log

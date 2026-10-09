@@ -1,0 +1,22 @@
+{
+  "routerHost": "router.example.invalid",
+  "routerPort": 80,
+  "routerTimeoutSeconds": 4,
+  "pollIntervalSeconds": 3600,
+  "reportIntervalSeconds": 0,
+  "ipWatchIntervalSeconds": 30,
+  "retryIntervalSeconds": 60,
+  "subnetSweepEnabled": true,
+  "subnetSweepConcurrency": 128,
+  "discoveryPorts": [
+    22,
+    3129,
+    80
+  ],
+  "portProbeTimeoutMs": 400,
+  "sendToBackend": true,
+  "registrationMode": "deviceAndIp",
+  "sendDeviceOs": true,
+  "promptOnFirstRun": true,
+  "logLevel": "info"
+}

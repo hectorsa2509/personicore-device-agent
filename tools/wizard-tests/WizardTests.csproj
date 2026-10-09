@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\core\Personicore.DeviceAgent.Core\Personicore.DeviceAgent.Core.csproj" />
+    <Compile Include="..\..\windows\src\Personicore.DeviceAgent\Wizard\WizardState.cs" Link="WizardState.cs" />
+    <Compile Include="..\..\windows\src\Personicore.DeviceAgent\Wizard\DeviceRegistrationClient.cs" Link="DeviceRegistrationClient.cs" />
+    <Compile Include="..\..\macos\src\Personicore.DeviceAgent.Mac\Wizard\MacWizardState.cs" Link="MacWizardState.cs" />
+    <Compile Include="..\..\macos\src\Personicore.DeviceAgent.Mac\Wizard\MacPermissionsManager.cs" Link="MacPermissionsManager.cs" />
+  </ItemGroup>
+
+</Project>
